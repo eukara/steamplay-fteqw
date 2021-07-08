@@ -1,0 +1,7 @@
+"manifest"
+{
+	"commandline"			"/fteqw_wrapper run"
+	"commandline_waitforexitandrun"	"/fteqw_wrapper wait-before-run"
+	"commandline_getnativepath"	"/fteqw_wrapper get-native-path"
+	"commandline_getcompatpath"	"/fteqw_wrapper get-compat-path"
+}

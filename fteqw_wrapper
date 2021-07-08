@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# there's run & wait-before-run, we only care about the latter.
+COMMANDTYPE=$1
+
+# this is how Steam tries to run the game
+if [ "$COMMANDTYPE" == "wait-before-run" ]; then
+	# used to decipher which game we'll play
+	GAMEBINARY=$(basename "$2")
+	# steam game dir
+	GAMEDIR=$(dirname "$2")
+
+	# we have an unknown amount of parameters, let's make sure we get them
+	# make sure this is quotes, because HeXen II has a space in its path
+	PARMARR=( "$@" )
+	ARGLEN=${#PARMARR[@]}
+
+	# get every parameter after the second (game location) and put it into
+	# its own variable to pass over later
+	GAMEARGS=${PARMARR[@]:2:$ARGLEN-1}
+
+	if [ "$GAMEBINARY" == "Winquake.exe" ]; then
+		fteqw -basedir "$GAMEDIR" $GAMEARGS
+	elif [ "$GAMEBINARY" == "qwcl.exe" ]; then
+		fteqw -basedir "$GAMEDIR" -game qw $GAMEARGS
+	elif [ "$GAMEBINARY" == "Glquake.exe" ]; then
+		fteqw -basedir "$GAMEDIR" $GAMEARGS
+	elif [ "$GAMEBINARY" == "glqwcl.exe" ]; then
+		fteqw -basedir "$GAMEDIR" -game qw $GAMEARGS
+	elif [ "$GAMEBINARY" == "quake3.exe" ]; then
+		fteqw -basedir "$GAMEDIR" -quake3 $GAMEARGS
+	elif [ "$GAMEBINARY" == "quake2.exe" ]; then
+		fteqw -basedir "$GAMEDIR" -quake2 $GAMEARGS
+	elif [ "$GAMEBINARY" == "glh2.exe" ]; then
+		fteqw -basedir "$GAMEDIR" -hexen2 $GAMEARGS
+	else
+		fteqw -basedir "$GAMEDIR" $GAMEARGS
+	fi
+fi
