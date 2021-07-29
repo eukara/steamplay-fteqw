@@ -20,13 +20,13 @@ if [ "$COMMANDTYPE" == "wait-before-run" ]; then
 	GAMEARGS=${PARMARR[@]:2:$ARGLEN-1}
 
 	if [ "$GAMEBINARY" == "Winquake.exe" ]; then
-		fteqw -basedir "$GAMEDIR" $GAMEARGS
+		fteqw -basedir "$GAMEDIR" -quake $GAMEARGS
 	elif [ "$GAMEBINARY" == "qwcl.exe" ]; then
-		fteqw -basedir "$GAMEDIR" -game qw $GAMEARGS
+		fteqw -basedir "$GAMEDIR" -quake -game qw $GAMEARGS
 	elif [ "$GAMEBINARY" == "Glquake.exe" ]; then
-		fteqw -basedir "$GAMEDIR" $GAMEARGS
+		fteqw -basedir "$GAMEDIR" -quake $GAMEARGS
 	elif [ "$GAMEBINARY" == "glqwcl.exe" ]; then
-		fteqw -basedir "$GAMEDIR" -game qw $GAMEARGS
+		fteqw -basedir "$GAMEDIR" -quake -game qw $GAMEARGS
 	elif [ "$GAMEBINARY" == "quake3.exe" ]; then
 		fteqw -basedir "$GAMEDIR" -quake3 $GAMEARGS
 	elif [ "$GAMEBINARY" == "quake2.exe" ]; then
