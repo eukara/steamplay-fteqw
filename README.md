@@ -3,7 +3,7 @@
 If you'd like a convenient way to use your system binary of FTEQW
 in order to run games such as:
 
-- Quake
+- Quake (and QuakeWorld, it'll know to differentiate)
 - Quake Mission Pack 1: Scourge of Armagon
 - Quake Mission Pack 2: Dissolution of Eternity
 - Quake II
