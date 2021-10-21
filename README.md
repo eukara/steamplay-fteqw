@@ -15,6 +15,12 @@ in order to run games such as:
 
 Then this is the right tool for you.
 
+It'll play with the new re-release content by default now; if you
+want it to ALWAYS start with the original, authentic content
+set PLAY_RERELEASE to 0 inside fteqw_wrapper.
+
+You will not be able to play the new expansions however.
+
 # Dependencies
 None, it expects your /bin/sh to handle arrays and things though.
 And you want fteqw installed. Put it into $HOME/bin if that's in your $PATH
