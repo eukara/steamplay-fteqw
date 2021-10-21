@@ -1,5 +1,7 @@
 #!/bin/sh
 
+PLAY_RERELEASE=1
+
 launch_fte()
 {
 	fteqw $*
@@ -25,8 +27,12 @@ if [ "$COMMANDTYPE" == "wait-before-run" ]; then
 	GAMEARGS=${PARMARR[@]:2:$ARGLEN-1}
 
 	if [ "$GAMEBINARY" == "Quake_x64_steam.exe" ]; then
-		NEWPATH=$(dirname "$GAMEDIR")
-		launch_fte -basedir "$NEWPATH" -quake $GAMEARGS
+		if [ $PLAY_RERELEASE == 1 ]; then
+			launch_fte -basedir "$GAMEDIR" $GAMEARGS
+		else
+			NEWPATH=$(dirname "$GAMEDIR")
+			launch_fte -basedir "$NEWPATH" -quake $GAMEARGS
+		fi
 	elif [ "$GAMEBINARY" == "Winquake.exe" ]; then
 		launch_fte -basedir "$GAMEDIR" $GAMEARGS
 	elif [ "$GAMEBINARY" == "qwcl.exe" ]; then
