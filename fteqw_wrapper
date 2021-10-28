@@ -2,11 +2,6 @@
 
 PLAY_RERELEASE=1
 
-launch_fte()
-{
-	fteqw $*
-}
-
 # there's run & wait-before-run, we only care about the latter.
 COMMANDTYPE=$1
 
@@ -28,26 +23,26 @@ if [ "$COMMANDTYPE" == "wait-before-run" ]; then
 
 	if [ "$GAMEBINARY" == "Quake_x64_steam.exe" ]; then
 		if [ $PLAY_RERELEASE == 1 ]; then
-			launch_fte -basedir "$GAMEDIR" $GAMEARGS
+			fteqw -basedir "$GAMEDIR" $GAMEARGS
 		else
 			NEWPATH=$(dirname "$GAMEDIR")
-			launch_fte -basedir "$NEWPATH" -quake $GAMEARGS
+			fteqw -basedir "$NEWPATH" -quake $GAMEARGS
 		fi
 	elif [ "$GAMEBINARY" == "Winquake.exe" ]; then
-		launch_fte -basedir "$GAMEDIR" $GAMEARGS
+		fteqw -basedir "$GAMEDIR" $GAMEARGS
 	elif [ "$GAMEBINARY" == "qwcl.exe" ]; then
-		launch_fte -basedir "$GAMEDIR" -game qw $GAMEARGS
+		fteqw -basedir "$GAMEDIR" -game qw $GAMEARGS
 	elif [ "$GAMEBINARY" == "Glquake.exe" ]; then
-		launch_fte -basedir "$GAMEDIR" -quake $GAMEARGS
+		fteqw -basedir "$GAMEDIR" -quake $GAMEARGS
 	elif [ "$GAMEBINARY" == "glqwcl.exe" ]; then
-		launch_fte -basedir "$GAMEDIR" -quake -game qw $GAMEARGS
+		fteqw -basedir "$GAMEDIR" -quake -game qw $GAMEARGS
 	elif [ "$GAMEBINARY" == "quake3.exe" ]; then
-		launch_fte -basedir "$GAMEDIR" -quake3 $GAMEARGS
+		fteqw -basedir "$GAMEDIR" -quake3 $GAMEARGS
 	elif [ "$GAMEBINARY" == "quake2.exe" ]; then
-		launch_fte -basedir "$GAMEDIR" -quake2 $GAMEARGS
+		fteqw -basedir "$GAMEDIR" -quake2 $GAMEARGS
 	elif [ "$GAMEBINARY" == "glh2.exe" ]; then
-		launch_fte -basedir "$GAMEDIR" -hexen2 $GAMEARGS
+		fteqw -basedir "$GAMEDIR" -hexen2 $GAMEARGS
 	else
-		launch_fte -basedir "$GAMEDIR" $GAMEARGS
+		fteqw -basedir "$GAMEDIR" $GAMEARGS
 	fi
 fi
