@@ -1,5 +1,17 @@
 #!/bin/sh
 
+get_library()
+{
+	if ! [ -f ./$1 ]; then
+		echo "[SteamPlay-FTEQW] No game.so for $1 found, checking..."
+		if ! [ -f ./$2 ]; then
+			echo "[SteamPlay-FTEQW] Grabbing new library..."
+			wget https://www.frag-net.com/dl/lib/$2
+		fi
+		tar xvfz ./$2
+	fi
+}
+
 PLAY_RERELEASE=1
 
 # there's run & wait-before-run, we only care about the latter.
@@ -39,6 +51,11 @@ if [ "$COMMANDTYPE" == "wait-before-run" ]; then
 	elif [ "$GAMEBINARY" == "quake3.exe" ]; then
 		fteqw -basedir "$GAMEDIR" -quake3 $GAMEARGS
 	elif [ "$GAMEBINARY" == "quake2.exe" ]; then
+		cd "$GAMEDIR"
+		get_library baseq2/game.so q2-baseq2.tgz
+		get_library ctf/game.so q2-ctf.tgz
+		get_library rogue/game.so q2-rogue.tgz
+		get_library xatrix/game.so q2-xatrix.tgz
 		fteqw -basedir "$GAMEDIR" -quake2 $GAMEARGS
 	elif [ "$GAMEBINARY" == "glh2.exe" ]; then
 		fteqw -basedir "$GAMEDIR" -hexen2 $GAMEARGS
