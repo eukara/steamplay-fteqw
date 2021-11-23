@@ -19,6 +19,16 @@ COMMANDTYPE=$1
 
 # this is how Steam tries to run the game
 if [ "$COMMANDTYPE" == "wait-before-run" ]; then
+	# dependency check...
+	if ! [ -x "$(command -v wget)" ]; then
+		xmessage "You don't have wget installed. Please install wget."
+		exit
+	fi
+	if ! [ -x "$(command -v unzip)" ]; then
+		xmessage "You don't have unzip installed. Please install unzip."
+		exit
+	fi
+
 	# used to decipher which game we'll play
 	GAMEBINARY=$(basename "$2")
 	# steam game dir
@@ -33,33 +43,51 @@ if [ "$COMMANDTYPE" == "wait-before-run" ]; then
 	# its own variable to pass over later
 	GAMEARGS=${PARMARR[@]:2:$ARGLEN-1}
 
+	# Do we have a system-wide install of FTEQW?
+	if [ -x "$(command -v fteqw)" ]; then
+		ENGINE=fteqw
+	else
+		# If we don't... use a SteamPlay-FTEQW one
+		SCRPATH="$( cd "$( dirname $(readlink -nf $0) )" && pwd )"
+		PATH="$SCRPATH":"$PATH"
+		ENGINE=fteqw-sdl2
+
+		# If we don't have it, grab the latest version!
+		if [ ! -f "$SCRPATH/fteqw-sdl2" ]; then
+			cd "$SCRPATH"
+			wget https://www.fteqw.org/dl/fteqw-sdl2-linux64.zip
+			unzip fteqw-sdl2-linux64.zip
+			rm fteqw-sdl2-linux64.zip readme.txt
+		fi
+	fi
+
 	if [ "$GAMEBINARY" == "Quake_x64_steam.exe" ]; then
 		if [ $PLAY_RERELEASE == 1 ]; then
-			fteqw -basedir "$GAMEDIR" $GAMEARGS
+			$ENGINE -basedir "$GAMEDIR" $GAMEARGS
 		else
 			NEWPATH=$(dirname "$GAMEDIR")
-			fteqw -basedir "$NEWPATH" -quake $GAMEARGS
+			$ENGINE -basedir "$NEWPATH" -quake $GAMEARGS
 		fi
 	elif [ "$GAMEBINARY" == "Winquake.exe" ]; then
-		fteqw -basedir "$GAMEDIR" $GAMEARGS
+		$ENGINE -basedir "$GAMEDIR" $GAMEARGS
 	elif [ "$GAMEBINARY" == "qwcl.exe" ]; then
-		fteqw -basedir "$GAMEDIR" -game qw $GAMEARGS
+		$ENGINE -basedir "$GAMEDIR" -game qw $GAMEARGS
 	elif [ "$GAMEBINARY" == "Glquake.exe" ]; then
-		fteqw -basedir "$GAMEDIR" -quake $GAMEARGS
+		$ENGINE -basedir "$GAMEDIR" -quake $GAMEARGS
 	elif [ "$GAMEBINARY" == "glqwcl.exe" ]; then
-		fteqw -basedir "$GAMEDIR" -quake -game qw $GAMEARGS
+		$ENGINE -basedir "$GAMEDIR" -quake -game qw $GAMEARGS
 	elif [ "$GAMEBINARY" == "quake3.exe" ]; then
-		fteqw -basedir "$GAMEDIR" -quake3 $GAMEARGS
+		$ENGINE -basedir "$GAMEDIR" -quake3 $GAMEARGS
 	elif [ "$GAMEBINARY" == "quake2.exe" ]; then
 		cd "$GAMEDIR"
 		get_library baseq2/game.so q2-baseq2.tgz
 		get_library ctf/game.so q2-ctf.tgz
 		get_library rogue/game.so q2-rogue.tgz
 		get_library xatrix/game.so q2-xatrix.tgz
-		fteqw -basedir "$GAMEDIR" -quake2 $GAMEARGS
+		$ENGINE -basedir "$GAMEDIR" -quake2 $GAMEARGS
 	elif [ "$GAMEBINARY" == "glh2.exe" ]; then
-		fteqw -basedir "$GAMEDIR" -hexen2 $GAMEARGS
+		$ENGINE -basedir "$GAMEDIR" -hexen2 $GAMEARGS
 	else
-		fteqw -basedir "$GAMEDIR" $GAMEARGS
+		$ENGINE -basedir "$GAMEDIR" $GAMEARGS
 	fi
 fi

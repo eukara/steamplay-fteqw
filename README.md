@@ -1,7 +1,6 @@
 # Steam Play - FTEQW
 
-If you'd like a convenient way to use your system binary of FTEQW
-in order to run games such as:
+If you'd like a convenient way to FTEQW in order to run games such as:
 
 - Quake (and QuakeWorld, it'll know to differentiate)
 - Quake Mission Pack 1: Scourge of Armagon
@@ -19,18 +18,27 @@ It'll play with the new re-release content by default now; if you
 want it to ALWAYS start with the original, authentic content
 set PLAY_RERELEASE to 0 inside fteqw_wrapper.
 
-You will not be able to play the new expansions however.
+You will not be able to play the new expansions however if you do that!
 
 # Dependencies
 None, it expects your /bin/sh to handle arrays and things though.
-And you want fteqw installed. Put it into $HOME/bin if that's in your $PATH
-or something. You'll figure it out.
+
+If you have fteqw installed on your system (command -v fteqw) it'll use
+the system binary. If you don't, it'll grab the latest 64-bit SDL2 binary
+from https://www.fteqw.org that's statically linked against any third party
+dependencies. It should be as easy as clicking play!
 
 # Installation
 In order to install it, you just clone
 the repository into your $HOME/.steam/steam/compatibilitytools.d/ directory.
 
 If the directory 'compatibilitytools.d' does not exist, make sure to create it.
+
+# Special Thanks
+This script will download and install game-logic from the Yamagi Quake II
+project, as it has a redone save-game system that's ASLR friendly.
+You are free to provide your own libraries for Quake II and its expansions!
+This script will not override them.
 
 # License
 
